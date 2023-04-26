@@ -5,26 +5,25 @@ using System.IO;
 
 public class PersistentData : MonoBehaviour
 {
-
 	public static PersistentData Instance;
 
-	//session name - temp
+	//session name - tempName
 	public string tempName;
 
 	public void Awake()
 	{
-		if (Instance != null)
+        Debug.Log("Awake of PermanentData: ");
+
+        if (Instance != null)
 		{
 			Destroy(gameObject);
-			//return;
+			return;
 		}
 
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
 
-		//LoadColor();
 
-		Debug.Log("Awake of PersistentData: " + this.tempName);
 	}
 
 	[System.Serializable]
@@ -58,7 +57,6 @@ public class PersistentData : MonoBehaviour
 		{
 			string json = File.ReadAllText(path);
 			SaveData data = JsonUtility.FromJson<SaveData>(json);
-
 
 			//player = data.playerName;
 			//score = data.score;

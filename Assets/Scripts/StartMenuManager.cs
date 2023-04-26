@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
+//using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -20,8 +20,9 @@ public class StartMenuManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-        //if no name, put "Player_1"
-        //playerName = "Player_Dummy";
+        Debug.Log("Start of StartMenuManager: ");
+		//Debug.Log();
+
     }
 
 	public void ChangeName() {
@@ -36,12 +37,12 @@ public class StartMenuManager : MonoBehaviour
 
         Debug.Log("player name changed: " + playerName);
         PersistentData.Instance.tempName = playerName;
-		//Debug.Log("player name changed: " + playerName);
 
 	}
 
 	public void PlayGame()
 	{
+		ChangeName();
 		SceneManager.LoadScene(1);
 	}
 

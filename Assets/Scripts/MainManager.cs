@@ -11,7 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text scoreText;
-    public Text bestScoreText;
+    public Text topScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -38,7 +38,9 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        Debug.Log("player name: " + PersistentData.Instance.tempName);
+        //Debug.Log("player name: " + PersistentData.Instance.tempName);
+        //chosen name:
+        scoreText.text = PersistentData.Instance.tempName + "'s score: " + 0;
     }
 
     private void Update()
@@ -68,7 +70,8 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        scoreText.text = $"Score : {m_Points}";
+        //scoreText.text = $"Score : {m_Points}";
+        scoreText.text = PersistentData.Instance.tempName + "'s score: " + m_Points;
     }
 
     public void GameOver()
