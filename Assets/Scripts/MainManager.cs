@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+//using TMPro;
 
 public class MainManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MainManager : MonoBehaviour
     public Text scoreText;
     public Text topScoreText;
     public GameObject GameOverText;
+    public Button backButton;
     
     private bool m_Started = false;
     private int m_Points;
@@ -89,5 +91,14 @@ public class MainManager : MonoBehaviour
 
         //update best player/score
         topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+
+        //activate back button
+        backButton.gameObject.SetActive(true);
+    }
+
+    public void GoBackToMenu() {
+
+        SceneManager.LoadScene(0);
+
     }
 }

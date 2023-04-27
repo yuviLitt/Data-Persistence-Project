@@ -19,7 +19,10 @@ public class PersistentData : MonoBehaviour
 
 	public void Awake()
 	{
-		Debug.Log("Awake of PermanentData: ");
+        tempName = "";
+		tempPoints = 0;
+
+        Debug.Log("Awake of PermanentData: ");
 
 		if (Instance != null)
 		{

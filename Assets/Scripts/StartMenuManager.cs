@@ -21,9 +21,12 @@ public class StartMenuManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		//Debug.Log("Start of StartMenuManager: ");
+		Debug.Log("Start of StartMenuManager: ");
 		bestScore.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
-
+        if (!PersistentData.Instance.tempName.Equals(""))
+        {
+			playerInputField.text = PersistentData.Instance.tempName;
+        }
     }
 
 	public void SetPlayerName() {
@@ -35,6 +38,7 @@ public class StartMenuManager : MonoBehaviour
 			|| playerName.Contains("Enter your")){
 			playerName = "Player_Dummy";
 		}
+
 
 		Debug.Log("player name changed: " + playerName);
 		PersistentData.Instance.tempName = playerName;
