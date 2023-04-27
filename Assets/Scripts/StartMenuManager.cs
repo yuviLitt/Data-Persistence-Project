@@ -12,20 +12,21 @@ using TMPro;
 public class StartMenuManager : MonoBehaviour
 {
 
-	//public TextMeshProUGUI highScore;
+	public TextMeshProUGUI bestScore;
 	public TMP_InputField playerInputField;
+
 
 	private string playerName = "";
 
 	// Start is called before the first frame update
 	void Start()
 	{
-        Debug.Log("Start of StartMenuManager: ");
-		//Debug.Log();
+		//Debug.Log("Start of StartMenuManager: ");
+		bestScore.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
 
     }
 
-	public void ChangeName() {
+	public void SetPlayerName() {
 
 		playerName = playerInputField.text;
 
@@ -35,14 +36,39 @@ public class StartMenuManager : MonoBehaviour
 			playerName = "Player_Dummy";
 		}
 
-        Debug.Log("player name changed: " + playerName);
-        PersistentData.Instance.tempName = playerName;
+		Debug.Log("player name changed: " + playerName);
+		PersistentData.Instance.tempName = playerName;
+
+
 
 	}
 
+	public void ShowScores() {
+
+		//Go to scene best Scores
+
+		/*
+		//This in scene best scores
+		//string name = "";
+		//string score = "";
+
+		//PersistentData.Instance.lines.Length = 10
+		for (int i = 0; i < 10; i++) {
+
+			//name = PersistentData.Instance.GetName(i);
+			//score = PersistentData.Instance.GetScore(i).ToString();
+
+			//Fill element in table/text element?
+
+		}
+		*/
+
+	}
+
+
 	public void PlayGame()
 	{
-		ChangeName();
+		SetPlayerName();
 		SceneManager.LoadScene(1);
 	}
 

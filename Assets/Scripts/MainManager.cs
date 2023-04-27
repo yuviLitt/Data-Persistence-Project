@@ -36,11 +36,14 @@ public class MainManager : MonoBehaviour
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
             }
+
         }
 
         //Debug.Log("player name: " + PersistentData.Instance.tempName);
         //chosen name:
         scoreText.text = PersistentData.Instance.tempName + "'s score: " + 0;
+        //get top score for topScoreText
+        topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
     }
 
     private void Update()
@@ -78,5 +81,13 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        PersistentData.Instance.tempPoints = m_Points;
+
+        //check against list of best scores
+        //save if proceeds -- inside SaveScore
+        PersistentData.Instance.SaveScore();
+
+        //update best player/score
+        topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
     }
 }
