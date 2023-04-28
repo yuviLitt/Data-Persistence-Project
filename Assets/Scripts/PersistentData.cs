@@ -18,10 +18,23 @@ public class PersistentData : MonoBehaviour
 
 	public List<SaveData> topScores = new List<SaveData>();
 
-	public void Awake()
+    //settings game
+    //linecount bricks
+    //color bricks - sets of colors
+    //sounds?? on/off
+    public Color[] setOfColors;
+
+
+    public void Awake()
 	{
         tempName = "";
 		tempPoints = 0;
+		bestPlayer = "";
+		bestScore = "0";
+		setOfColors = new Color[4];
+
+		//default set of colors
+		DefaultColors();
 
         //Debug.Log("Awake of PersistentData: ");
 
@@ -94,7 +107,7 @@ public class PersistentData : MonoBehaviour
 
 		}
 		
-        Debug.Log("json to write: " + json);
+        //Debug.Log("json to write: " + json);
 
 		//Debug.Log("Application.persistentDataPath: " + Application.persistentDataPath);
 		File.WriteAllText(Application.persistentDataPath + "/breakoutScores.json", json);
@@ -129,9 +142,7 @@ public class PersistentData : MonoBehaviour
 
 	}
 
-
-
-	public void LoadScore()
+	private void LoadScore()
 	{
 		string path = Application.persistentDataPath + "/breakoutScores.json";
 
@@ -155,5 +166,12 @@ public class PersistentData : MonoBehaviour
 
 		}
 	}
+
+	private void DefaultColors() {
+        setOfColors[0] = Color.green;
+        setOfColors[1] = Color.yellow;
+        setOfColors[2] = Color.blue;
+        setOfColors[3] = Color.red;
+    }
 
 }

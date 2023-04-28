@@ -21,7 +21,15 @@ public class StartMenuManager : MonoBehaviour
 	void Start()
 	{
 		//Debug.Log("Start of StartMenuManager: ");
-		bestScore.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+		if (PersistentData.Instance.bestPlayer != "")
+		{
+			bestScore.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+		}
+		else {
+			bestScore.text = "Best Score: ";
+        }
+
+		
         if (!PersistentData.Instance.tempName.Equals(""))
         {
 			playerInputField.text = PersistentData.Instance.tempName;
@@ -39,7 +47,7 @@ public class StartMenuManager : MonoBehaviour
 		}
 
 
-		Debug.Log("player name changed: " + playerName);
+		//Debug.Log("player name changed: " + playerName);
 		PersistentData.Instance.tempName = playerName;
 
 
@@ -53,8 +61,16 @@ public class StartMenuManager : MonoBehaviour
 
     }
 
+    public void ShowSettings()
+    {
 
-	public void PlayGame()
+        //Go to scene settings
+        SceneManager.LoadScene(3);
+
+    }
+
+
+    public void PlayGame()
 	{
 		SetPlayerName();
 		SceneManager.LoadScene(1);

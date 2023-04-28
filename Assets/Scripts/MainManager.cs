@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-//using TMPro;
 
 public class MainManager : MonoBehaviour
 {
     public Brick BrickPrefab;
-    public int LineCount = 6;
+    public int LineCount = 3;//6;
     public Rigidbody Ball;
 
     public Text scoreText;
@@ -44,8 +43,16 @@ public class MainManager : MonoBehaviour
         //Debug.Log("player name: " + PersistentData.Instance.tempName);
         //chosen name:
         scoreText.text = PersistentData.Instance.tempName + "'s score: " + 0;
+
         //get top score for topScoreText
-        topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+        if (PersistentData.Instance.bestPlayer != "")
+        {
+            topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+        }
+        else
+        {
+            topScoreText.text = "Best Score: ";
+        }
     }
 
     private void Update()
@@ -81,6 +88,8 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        //what if all bricks are destroyed?
+
         m_GameOver = true;
         GameOverText.SetActive(true);
         PersistentData.Instance.tempPoints = m_Points;

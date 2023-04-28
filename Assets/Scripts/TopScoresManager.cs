@@ -33,7 +33,7 @@ public class TopScoresManager : MonoBehaviour
 			//Debug.Log("i: " + i + "/ child: " + child.name);
 
 			scoreTextAux = child.gameObject.GetComponent<TextMeshProUGUI>();
-			scoreTextAux.text = i + " : " + PersistentData.Instance.topScores[i].playerName +
+			scoreTextAux.text = (i+1) + " : " + PersistentData.Instance.topScores[i].playerName +
 				" : " + PersistentData.Instance.topScores[i].score;
 
 		}
