@@ -96,9 +96,4 @@ public class MainManager : MonoBehaviour
         backButton.gameObject.SetActive(true);
     }
 
-    public void GoBackToMenu() {
-
-        SceneManager.LoadScene(0);
-
-    }
 }

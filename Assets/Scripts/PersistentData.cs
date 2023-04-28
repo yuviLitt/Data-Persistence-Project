@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PersistentData : MonoBehaviour
 {
@@ -15,16 +16,16 @@ public class PersistentData : MonoBehaviour
 	public string bestPlayer;
 	public string bestScore;
 
-	private List<SaveData> topScores = new List<SaveData>();
+	public List<SaveData> topScores = new List<SaveData>();
 
 	public void Awake()
 	{
         tempName = "";
 		tempPoints = 0;
 
-        Debug.Log("Awake of PermanentData: ");
+        //Debug.Log("Awake of PersistentData: ");
 
-		if (Instance != null)
+        if (Instance != null)
 		{
 			Destroy(gameObject);
 			return;
@@ -39,7 +40,7 @@ public class PersistentData : MonoBehaviour
 	}
 
 	[System.Serializable]
-	class SaveData
+	public class SaveData
 	{
 		public string playerName;
 		public int score;
