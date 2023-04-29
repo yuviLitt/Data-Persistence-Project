@@ -51,7 +51,7 @@ public class StartMenuManager : MonoBehaviour
             playerName = playerInputField.text;
         }
 
-        Debug.Log("player name changed: " + playerName);
+        //Debug.Log("player name changed: " + playerName);
         PersistentData.Instance.tempName = playerName;
 		
     }

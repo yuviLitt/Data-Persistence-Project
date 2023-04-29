@@ -182,7 +182,7 @@ public class PersistentData : MonoBehaviour
 		{
 			string json = File.ReadAllText(path);
 			SetColors chosen = JsonUtility.FromJson<SetColors>(json);
-			Debug.Log("chosen set in file: " + chosen.name);
+			//Debug.Log("chosen set in file: " + chosen.name);
 
 			//get the colors
 			nameSetColors = chosen.name;
@@ -220,14 +220,15 @@ public class PersistentData : MonoBehaviour
         json = JsonUtility.ToJson(newSet);
         File.WriteAllText(path, json);
 
-        Debug.Log("Originals saved and loaded");
+		nameSetColors = newSet.name;
+        //Debug.Log("Originals saved and loaded");
     }
 
     public void SaveColors()
     {
         //colors
         string path = Application.persistentDataPath + "/breakoutSettings.json";
-        String json = "";
+        string json = "";
         SetColors newSet = new SetColors();
 
         newSet.name = nameSetColors;

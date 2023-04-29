@@ -20,8 +20,6 @@ public class SettingsColorManager : MonoBehaviour
         {
             toggleSet.isOn = true;
         }
-		
-
 
         //fill the fields with the parameters
         for (int i = 0; i < 5; i++) {

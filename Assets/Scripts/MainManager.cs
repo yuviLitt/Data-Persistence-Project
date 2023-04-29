@@ -12,15 +12,17 @@ public class MainManager : MonoBehaviour
 
     public Text scoreText;
     public Text topScoreText;
-    public GameObject GameOverText;
+    public GameObject gameOverText;
     public Button backButton;
     
     private bool m_Started = false;
     private int m_Points;
-    
-    private bool m_GameOver = false;
 
-    
+    //for end game
+    private bool m_GameOver = false;
+    private GameObject[] brickRemanents;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,6 @@ public class MainManager : MonoBehaviour
 
         }
 
-        //Debug.Log("player name: " + PersistentData.Instance.tempName);
         //chosen name:
         scoreText.text = PersistentData.Instance.tempName + "'s score: " + 0;
 
@@ -57,6 +58,7 @@ public class MainManager : MonoBehaviour
 
     private void Update()
     {
+
         if (!m_Started)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -77,6 +79,16 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
+        else if (!m_GameOver) {
+
+            //check number of remanent bricks
+            brickRemanents = GameObject.FindGameObjectsWithTag("Brick");
+            //Debug.Log("brickRemanents: " + brickRemanents.Length);
+            if (brickRemanents.Length == 0)
+            {
+                EndGame(true);
+            }
+        }
     }
 
     void AddPoint(int point)
@@ -86,23 +98,41 @@ public class MainManager : MonoBehaviour
         scoreText.text = PersistentData.Instance.tempName + "'s score: " + m_Points;
     }
 
-    public void GameOver()
+    /*
+     * howEnded
+     * 0 - game over
+     * 1 - well done
+     */
+    public void EndGame(bool howEnded) //former GameOver
     {
-        //what if all bricks are destroyed?
 
-        m_GameOver = true;
-        GameOverText.SetActive(true);
-        PersistentData.Instance.tempPoints = m_Points;
+        if (!m_GameOver) { //in case collision at the end
 
-        //check against list of best scores
-        //save if proceeds -- inside SaveScore
-        PersistentData.Instance.SaveScore();
+            //what if all bricks are destroyed?
+            Text endText = gameOverText.GetComponent<Text>();
+            if (howEnded)
+            {
+                endText.text = "WEL DONE!!\nPress Space to Restart";
+            }
+            else
+            {
+                endText.text = "GAME OVER\nPress Space to Restart";
+            }
 
-        //update best player/score
-        topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+            m_GameOver = true;
+            gameOverText.SetActive(true);
+            PersistentData.Instance.tempPoints = m_Points;
 
-        //activate back button
-        backButton.gameObject.SetActive(true);
+            //check against list of best scores
+            //save if proceeds -- inside SaveScore
+            PersistentData.Instance.SaveScore();
+
+            //update best player/score
+            topScoreText.text = "Best Score: " + PersistentData.Instance.bestPlayer + ": " + PersistentData.Instance.bestScore;
+
+            //activate back button
+            backButton.gameObject.SetActive(true);
+        }
     }
 
 }

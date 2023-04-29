@@ -509,7 +509,7 @@ MonoBehaviour:
   Ball: {fileID: 177912862}
   scoreText: {fileID: 188020406}
   topScoreText: {fileID: 2078529056}
-  GameOverText: {fileID: 474497238}
+  gameOverText: {fileID: 474497238}
   backButton: {fileID: 1145259627}
 --- !u!1 &455529321
 GameObject:
