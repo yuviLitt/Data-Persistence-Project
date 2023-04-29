@@ -18,15 +18,16 @@ public class PersistentData : MonoBehaviour
 
 	public List<SaveData> topScores = new List<SaveData>();
 
-    //settings game
-    //linecount bricks
-    //color bricks - sets of colors
-    //sounds?? on/off
-    public Color[] setOfColors;
+	//settings game
+	//color bricks - sets of colors
+	public Color[] setOfColors;
+	public string nameSetColors;
 
 
-    public void Awake()
+	public void Awake()
 	{
+        //Debug.Log("Awake of PersistentData");
+
         tempName = "";
 		tempPoints = 0;
 		bestPlayer = "";
@@ -34,11 +35,9 @@ public class PersistentData : MonoBehaviour
 		setOfColors = new Color[4];
 
 		//default set of colors
-		DefaultColors();
+		LoadColorSet();
 
-        //Debug.Log("Awake of PersistentData: ");
-
-        if (Instance != null)
+		if (Instance != null)
 		{
 			Destroy(gameObject);
 			return;
@@ -47,11 +46,13 @@ public class PersistentData : MonoBehaviour
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
 
-		//Load score file - YEP - Test LoadScore
+		//Load score file
 		LoadScore();
 
 	}
 
+
+	//TOP SCORES
 	[System.Serializable]
 	public class SaveData
 	{
@@ -68,12 +69,11 @@ public class PersistentData : MonoBehaviour
 		List<SaveData> auxTops = new List<SaveData>(topScores);
 		bool recordInserted = false;
 
-		//topScores.Count = 10
-		//foreach (var line in topScores)
 		for (int i = 0; i < auxTops.Count; i++)
 		{
 
-            if (tempPoints > auxTops[i].score) {
+			if (tempPoints > auxTops[i].score)
+			{
 
 				//insert new score-player before the one checked 
 				CreateRecord(i, 0); //insert
@@ -95,38 +95,33 @@ public class PersistentData : MonoBehaviour
 		}
 
 		string json = "";
-       
-		for(int i = 0; i < topScores.Count; i++) {
+
+		for (int i = 0; i < topScores.Count; i++)
+		{
 
 			json += JsonUtility.ToJson(topScores[i]);
 
 			//dont add line break in last line
-			if (i < topScores.Count-1) {
-                json += "\n";
-            }
+			if (i < topScores.Count - 1)
+			{
+				json += "\n";
+			}
 
 		}
-		
-        //Debug.Log("json to write: " + json);
 
+		//Debug.Log("json to write: " + json);
 		//Debug.Log("Application.persistentDataPath: " + Application.persistentDataPath);
 		File.WriteAllText(Application.persistentDataPath + "/breakoutScores.json", json);
-
-		/*
-		//TO SEE
-		foreach (var line in topScores) {
-			Debug.Log("topScoreLine: " + line.playerName + ": " + line.score);
-		}
-		*/
 
 		//update best markers - in main-startmenu
 		bestPlayer = topScores[0].playerName;
 		bestScore = topScores[0].score.ToString();
 
-    }
+	}
 
 	//type: 0 - Insert // 1 - Add
-	private void CreateRecord(int index, int type) {
+	private void CreateRecord(int index, int type)
+	{
 
 		SaveData newLine = new SaveData();
 		newLine.playerName = tempName;
@@ -136,7 +131,8 @@ public class PersistentData : MonoBehaviour
 		{
 			topScores.Insert(index, newLine);
 		}
-		else {
+		else
+		{
 			topScores.Add(newLine);
 		}
 
@@ -153,7 +149,8 @@ public class PersistentData : MonoBehaviour
 
 			//Debug.Log("lines count when loading: " + lines.Length);
 
-			for (int i = 0; i < lines.Length; i++) {
+			for (int i = 0; i < lines.Length; i++)
+			{
 
 				//Debug.Log(i + " " + lines[i] );
 				SaveData dataLine = JsonUtility.FromJson<SaveData>(lines[i]);
@@ -167,11 +164,78 @@ public class PersistentData : MonoBehaviour
 		}
 	}
 
-	private void DefaultColors() {
+	//SETTINGS FOR COLORS
+	[System.Serializable]
+	public class SetColors
+	{
+		public string name;
+		public Color[] colors;
+
+	}//end class SetColors
+
+
+	// load of the color set chosen
+	private void LoadColorSet() {
+
+		string path = Application.persistentDataPath + "/breakoutSettings.json";
+		if (File.Exists(path))
+		{
+			string json = File.ReadAllText(path);
+			SetColors chosen = JsonUtility.FromJson<SetColors>(json);
+			Debug.Log("chosen set in file: " + chosen.name);
+
+			//get the colors
+			nameSetColors = chosen.name;
+            setOfColors[0] = chosen.colors[0];
+            setOfColors[1] = chosen.colors[1];
+            setOfColors[2] = chosen.colors[2];
+            setOfColors[3] = chosen.colors[3];
+
+        }
+
+		else{
+			//save and load the default "Originals"
+			SaveDefaultSetColors();
+        }
+
+
+	}
+
+    //create .json with default values for colors
+    private void SaveDefaultSetColors()
+    {
+        string path = Application.persistentDataPath + "/breakoutSettings.json";
+        string json = "";
+        SetColors newSet = new SetColors();
+
+        //default: set1
         setOfColors[0] = Color.green;
         setOfColors[1] = Color.yellow;
         setOfColors[2] = Color.blue;
         setOfColors[3] = Color.red;
+
+        newSet.name = "Originals";
+        newSet.colors = setOfColors;
+
+        json = JsonUtility.ToJson(newSet);
+        File.WriteAllText(path, json);
+
+        Debug.Log("Originals saved and loaded");
+    }
+
+    public void SaveColors()
+    {
+        //colors
+        string path = Application.persistentDataPath + "/breakoutSettings.json";
+        String json = "";
+        SetColors newSet = new SetColors();
+
+        newSet.name = nameSetColors;
+        newSet.colors = setOfColors;
+
+        json = JsonUtility.ToJson(newSet);
+        File.WriteAllText(path, json);
+
     }
 
 }

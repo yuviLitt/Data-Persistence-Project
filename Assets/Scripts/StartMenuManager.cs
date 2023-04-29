@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -36,23 +35,26 @@ public class StartMenuManager : MonoBehaviour
         }
     }
 
-	public void SetPlayerName() {
+	//for game
+	public void EndName() {
 
-		playerName = playerInputField.text;
+        //Debug.Log("OnEndEdit - when do you execute?");
+		//when INTRO, changes and change of scene
+		
+		//if no name, put something generic
+		if (playerInputField.text == null || playerInputField.text.Equals("")
+			|| playerInputField.text.Contains("Enter your")){
+			playerName = "JDoe";
+            playerInputField.text = playerName;
+        }
+		else {
+            playerName = playerInputField.text;
+        }
 
-		//if no name, put "Player_1"
-		if (playerName == null || playerName.Equals("")
-			|| playerName.Contains("Enter your")){
-			playerName = "Player_Dummy";
-		}
-
-
-		//Debug.Log("player name changed: " + playerName);
-		PersistentData.Instance.tempName = playerName;
-
-
-
-	}
+        Debug.Log("player name changed: " + playerName);
+        PersistentData.Instance.tempName = playerName;
+		
+    }
 
 	public void ShowScores() {
 
@@ -63,7 +65,6 @@ public class StartMenuManager : MonoBehaviour
 
     public void ShowSettings()
     {
-
         //Go to scene settings
         SceneManager.LoadScene(3);
 
@@ -72,7 +73,7 @@ public class StartMenuManager : MonoBehaviour
 
     public void PlayGame()
 	{
-		SetPlayerName();
+		EndName(); //in case it hasnt changed
 		SceneManager.LoadScene(1);
 	}
 
